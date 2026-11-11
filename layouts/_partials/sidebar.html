@@ -34,7 +34,7 @@
       {{ .context.Store.Set "enableFooterSwitches" true }}
     {{- else -}}
       <ul class="hx:flex hx:flex-col hx:gap-1 hx:max-md:hidden">
-        {{ template "sidebar-main" (dict "context" $navRoot "page" $context  "pageURL" $pageURL) }}
+        {{ template "sidebar-main" (dict "context" $navRoot "page" $context "pageURL" $pageURL "toc" true) }}
         {{ template "sidebar-footer" }}
       </ul>
     {{ end -}}
@@ -62,7 +62,7 @@
 {{- end -}}
 
 {{- define "sidebar-tree" -}}
-  {{- if ge .level 4 -}}
+  {{- if ge .level 8 -}}
     {{- return -}}
   {{- end -}}
 
@@ -71,7 +71,7 @@
   {{- $pageURL := .page.RelPermalink -}}
   {{- $level := .level -}}
   {{- $toc := .toc | default false -}}
-  {{- $useMainMenu := and (eq $level 0) $toc -}}
+  {{- $useMainMenu := and (eq $level 0) $toc (eq $context site.Home) -}}
   {{- $mainMenuEntries := slice -}}
 
   {{- $items := where (union .context.RegularPages .context.Sections) "Params.sidebar.exclude" "!=" true -}}
